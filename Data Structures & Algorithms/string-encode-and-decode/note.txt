@@ -1,0 +1,30 @@
+ok so here:
+
+    vector<string> decode(string s) {
+      vector<string> res;
+      size_t i = 0;
+
+      while (i < s.size()) {
+        size_t j = s.find('#', i);
+        int length = stoi(s.substr(i, j - i));
+
+        res.push_back(s.substr(j + 1, length));
+
+        i = j + 1 + length;
+      }
+
+      return res;
+    }
+
+
+an array of strings res is initialized, var i is set to 0 to store the size of the string being traversed, a while loop is run till i is less than the size of the string s. s is given in leetcode.
+
+now it sets j to the index where the # is found, then an int length stores the length of the substring which starts from the index i till the index of the #, this tells us how long the substring is. 
+
+now we extract the substring, j+1 meaning from after the delimiter till the ending of the string whose index is given by length. 
+
+now we need to update the int i with the starting of the next number after this first substring so we will add  j + length, j was where the number ended, length is how long the substring is, but we need to account for the # too so we will add 1 as well here. 
+
+this loop will run till i hits the end of the big string s. AH I get it, it's wonderful.
+
+what does the s.find() func return? it returns the index where # is found. 
