@@ -28,3 +28,64 @@ now we need to update the int i with the starting of the next number after this 
 this loop will run till i hits the end of the big string s. AH I get it, it's wonderful.
 
 what does the s.find() func return? it returns the index where # is found. 
+
+let's take a closer inspection for this line, cuz it's the most important line of the decode function
+
+        int length = stoi(s.substr(i, j - i));
+
+Index:    0  1  2  3  4  5  6  7  8  9 ...
+String:   1  2  #  h  e  l  l  o  w  o ...
+          ^     ^
+          i     j
+
+i = 0
+j = 2
+
+1. j - i          => 2 - 0 = 2           (Length of the digit segment)
+2. s.substr(0, 2) => "12"                (Grabs the string "12")
+3. stoi("12")     => 12                  (Converts to integer 12)
+
+see it's very simple, i is the index of the start of the characters which represent the digits. j is where the delimiter is. 
+so we first need to extract the digits as a substring and then convert them into a readable integer which we'll call length.
+
+we do j - i because let's say:
+
+index:   6 7 8
+string:  2 4 #
+         ^   ^
+         i   j 
+
+now to find the length of the digits segment here we will need to subtract 6 and 8, since i doesn't always start from 0 that's why we must subtract. 
+
+8 - 6 = 2.
+
+there are 2 characters which represent the size digits. 
+
+length = stoi(s.substr(i, j-i));
+
+yeah it's pretty simple just takes a while to get it all in your mind. 
+Basically you just extract the digits from the string and convert them into an integer to read later.
+
+now you have, i which is the start of this substring, you have the index of the delimiter, you also have the length of the actual string. 
+
+to decode you just need to extract this substring:
+
+res.push_back(s.substr(j+1, length));
+
+we use push_back because it will iteratively keep adding to the string vector. 
+
+now just update i with i = j + 1 + length
+
+goddamn it sure is hard to keep track of pointers in my mind.
+
+cuz wtf is j + 1 + length, cuz j is the index of the #, length will represent the ending index of the substr, why add 1?
+I think it has something to do with indices.
+
+Start at #, move 1 step to enter the word, then walk length steps to get past the word.
+
+Indices:   0  1  2  3  4  5  6  7  8  9
+Chars:     5  #  h  e  l  l  o  5  #  w  o  r  l  d
+             ^  |-----------|
+             j     length=5
+
+ok so in this example, j = 1, length = 5, if we just did 1+5 we'd land at 6, that's why we have to jump from # and to do that we have to do +1
